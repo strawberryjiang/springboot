@@ -1,10 +1,8 @@
 package com.atguigu.boot.controller;
 
-
 import com.atguigu.boot.bean.Person;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +15,12 @@ public class ParameterTestController {
      * @param person
      * @return
      */
-    @PostMapping("/saveuser")
-    public Person saveuser(Person person){
-
+    @PostMapping("/saveUser")
+    public Person saveUser(Person person){
         return person;
     }
 
 
-    //  car/2/owner/zhangsan
     @GetMapping("/car/{id}/owner/{username}")
     public Map<String,Object> getCar(@PathVariable("id") Integer id,
                                      @PathVariable("username") String name,
@@ -33,21 +29,22 @@ public class ParameterTestController {
                                      @RequestHeader Map<String,String> header,
                                      @RequestParam("age") Integer age,
                                      @RequestParam("inters") List<String> inters,
-                                     @RequestParam Map<String,String> params,
-                                     @CookieValue("_ga") String _ga,
-                                     @CookieValue("_ga") Cookie cookie){
+                                     @RequestParam Map<String,String> params
+//                                     @CookieValue("_ga") String _ga,
+//                                     @CookieValue() Cookie cookie
+                                     ){
         Map<String,Object> map = new HashMap<>();
 
-//        map.put("id",id);
-//        map.put("name",name);
-//        map.put("pv",pv);
-//        map.put("userAgent",userAgent);
-//        map.put("headers",header);
+        map.put("id",pv.get("id"));
+        map.put("name",pv.get("username"));
+        map.put("pv",pv);
+        map.put("userAgent",userAgent);
+        map.put("headers",header);
         map.put("age",age);
         map.put("inters",inters);
         map.put("params",params);
-        map.put("_ga",_ga);
-        System.out.println(cookie.getName()+"===>"+cookie.getValue());
+//        map.put("_ga",_ga);
+//        System.out.println(cookie.getName()+"===>"+cookie.getValue());
         return map;
     }
 
@@ -81,7 +78,10 @@ public class ParameterTestController {
 
     @GetMapping("/boss/{bossId}/{empId}")
     public Map boss(@MatrixVariable(value = "age",pathVar = "bossId") Integer bossAge,
-                    @MatrixVariable(value = "age",pathVar = "empId") Integer empAge){
+                    @MatrixVariable(value = "age",pathVar = "empId") Integer empAge) throws ClassNotFoundException {
+
+
+
         Map<String,Object> map = new HashMap<>();
 
         map.put("bossAge",bossAge);
